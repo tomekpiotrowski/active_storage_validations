@@ -33,6 +33,9 @@ module ActiveStorageValidations
         tempfile.rewind
 
         image = MiniMagick::Image.new(tempfile.path)
+      elsif file.is_a?(Hash) && file[:io].is_a?(StringIO)
+        image = MiniMagick::Image.read(file[:io])
+        file[:io].rewind
       else
         image = MiniMagick::Image.new(read_file_path)
       end
